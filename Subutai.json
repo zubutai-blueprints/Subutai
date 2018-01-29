@@ -1,0 +1,132 @@
+{
+  "name": "${environmentName}",
+  "description": "Subutai test blueprint with port-mappings",
+  "version": "1.0.1",
+  "author": "Zubaidullo",
+  "containers": [
+    {
+      "hostname": "${test0}",
+      "template": "master",
+      "peer-criteria": "peer-test",
+      "size": "${dbcontainertype}"
+    },
+    {
+      "hostname": "${test1}",
+      "template": "master",
+      "peer-criteria": "peer-test",
+      "size": "${mattermostcontainertype}",
+      "port-mapping": [
+        {
+          "protocol": "http",
+          "domain": "${domain}",
+          "internal-port": "22",
+          "external-port": "443"
+        },
+        {
+          "protocol": "http",
+          "domain": "${domain2}",
+          "internal-port": "81",
+          "external-port": "8081"
+        }
+      ]
+    }
+  ],
+  "peer-criteria": [
+    {
+      "name": "peer-test",
+      "max-price": "50"
+    }
+  ],
+  "configuration": {
+    "source-url": "https://github.com/zubaidullo/subutai-blueprints/archive/master.zip",
+    "ansible-playbook": "main.yml",
+    "arguments": [
+      {
+        "key": "key1",
+        "value": "value1"
+      }
+    ],
+    "groups": [
+      {
+        "name": "db",
+        "hostnames": [
+          "${test0}"
+        ]
+      },
+      {
+        "name": "mattermost",
+        "hostnames": [
+          "${test1}"
+        ]
+      }
+    ]
+  },
+  "user-variables": {
+    "dbcontainertype": {
+      "description": "Please choose container type: TINY, SMALL, MEDIUM, LARGE, HUGE",
+      "type": "enum",
+      "default": "SMALL",
+      "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
+    },
+    "mattermostcontainertype": {
+      "description": "You can set TINY,SMALL,MEDIUM,LARGE,HUGE",
+      "type": "enum",
+      "default": "SMALL",
+      "validation": "TINY,SMALL,MEDIUM,LARGE,HUGE"
+    },
+    "maxPrice": {
+      "description": "Enter the max price",
+      "type": "int",
+      "default": "50",
+      "validation": "\\d+"
+    },
+    "domain": {
+      "description": "Select your domain or create new one",
+      "type": "domain",
+      "default": "mattermost.envs.subutai.cloud",
+      "validation": "[a-zA-Z0-9.-]+"
+    },
+    "domain2": {
+      "description": "Select your domain or create new one",
+      "type": "domain",
+      "default": "mattermost.envs.subutai.cloud",
+      "validation": "[a-zA-Z0-9.-]+"
+    },
+    "environmentName": {
+      "description": "Enter your environment name",
+      "type": "string",
+      "default": "mattermost env",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "test0": {
+      "description": "Test0",
+      "type": "string",
+      "default": "test0",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "test1": {
+      "description": "Test1",
+      "type": "string",
+      "default": "test1",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "test2": {
+      "description": "Test2",
+      "type": "string",
+      "default": "test2",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "test3": {
+      "description": "Test3",
+      "type": "string",
+      "default": "test3",
+      "validation": "[a-zA-Z0-9]+"
+    },
+    "test4": {
+      "description": "Test4",
+      "type": "string",
+      "default": "test4",
+      "validation": "[a-zA-Z0-9]+"
+    }
+  }
+}

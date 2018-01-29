@@ -1,0 +1,12 @@
+---
+- hosts: mattermost
+  tasks:
+  - name: stop mattermost
+    shell: systemctl stop mattermost.service
+
+  - name: Copy dbconfig xml
+    template: src="config.json.j2"   dest="/opt/mattermost/config/config.json"   mode=777
+   
+  - name: restart mattermost
+    shell: systemctl start mattermost.service
+
